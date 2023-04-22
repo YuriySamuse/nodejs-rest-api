@@ -45,7 +45,7 @@ const addShema = Joi.object({
 		"string.empty": `"phone" cannot be empty, min 1 max 15 leters.`,
 	}),
 	favorite: Joi.boolean().messages({
-		"any.required": `missing field favorite`,
+		"boolean.base": `favorite must be boolean`,
 	}),
 });
 
@@ -67,13 +67,14 @@ const putShema = Joi.object({
 		"string.empty": `"phone" cannot be empty, min 1 max 15 leters.`,
 	}),
 	favorite: Joi.boolean().messages({
-		"any.required": `missing field favorite`,
+		"boolean.base": `favorite must be boolean`,
 	}),
 });
 
 const patchFavoriteSchema = Joi.object({
 	favorite: Joi.boolean().required().messages({
 		"any.required": `missing field favorite`,
+		"boolean.base": `favorite must be boolean`,
 	}),
 });
 
