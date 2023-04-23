@@ -1,4 +1,29 @@
+const { Schema, model } = require("mongoose");
 const Joi = require("joi");
+
+const { handleMongooseEroor } = require("../utils");
+
+const contactSchema = new Schema(
+	{
+		name: {
+			type: String,
+			required: [true, "Set name for contact"],
+		},
+		email: {
+			type: String,
+		},
+		phone: {
+			type: String,
+		},
+		favorite: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	{ versionKey: false, timestamps: false }
+);
+
+contactSchema.post("save", handleMongooseEroor);
 
 const addShema = Joi.object({
 	name: Joi.string().min(3).required().messages({
@@ -19,6 +44,9 @@ const addShema = Joi.object({
 		"any.required": `missing required phone field`,
 		"string.empty": `"phone" cannot be empty, min 1 max 15 leters.`,
 	}),
+	favorite: Joi.boolean().messages({
+		"boolean.base": `favorite must be boolean`,
+	}),
 });
 
 const putShema = Joi.object({
@@ -38,9 +66,27 @@ const putShema = Joi.object({
 		"any.required": `"phone" is required`,
 		"string.empty": `"phone" cannot be empty, min 1 max 15 leters.`,
 	}),
+	favorite: Joi.boolean().messages({
+		"boolean.base": `favorite must be boolean`,
+	}),
 });
 
-module.exports = {
+const patchFavoriteSchema = Joi.object({
+	favorite: Joi.boolean().required().messages({
+		"any.required": `missing field favorite`,
+		"boolean.base": `favorite must be boolean`,
+	}),
+});
+
+const Contact = model("contact", contactSchema);
+
+const schemas = {
 	addShema,
 	putShema,
+	patchFavoriteSchema,
+};
+
+module.exports = {
+	Contact,
+	schemas,
 };
