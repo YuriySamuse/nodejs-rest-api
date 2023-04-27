@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const fs = require("fs/promises");
 const path = require("path");
-var Jimp = require("jimp");
+const Jimp = require("jimp");
 
 const { ctrlWrapper } = require("../utils/ctrlWrapper");
 
